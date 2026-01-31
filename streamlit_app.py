@@ -4,6 +4,7 @@ import joblib
 import numpy as np
 import pandas as pd
 import streamlit as st
+from nltk.stem import WordNetLemmatizer
 
 
 # Load Model
@@ -19,10 +20,14 @@ st.markdown("Enter a **Review** of your choice and it will be output as **Positi
 review = st.text_input("Enter a review")
 
 def clean(text):
+    lemmatizer = WordNetLemmatizer()
     text = text.lower()
     text = text.replace('<br /><br />', ' ') # Replace HTML linebreak format with empty space
     text = re.sub(r'[^\w\s]', '', text) # Remove punctuation
-    return text
+    # Tokenize and lemmatize each word
+    words = text.split()
+    lemmatized_words = [lemmatizer.lemmatize(word) for word in words]
+    return " ".join(lemmatized_words)
 
 if st.button("Analyze Review", type = "primary"):
     if review.strip() == "":
