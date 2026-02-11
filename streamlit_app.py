@@ -1,12 +1,18 @@
+import os
 import re
 
 import joblib
+import nltk
 import numpy as np
 import pandas as pd
 import streamlit as st
 from nltk.stem import WordNetLemmatizer
 
+nltk_data_dir = os.path.join(os.getcwd(), "nltk_data")
+nltk.data.path.append(nltk_data_dir)
 
+nltk.download("wordnet", download_dir=nltk_data_dir)
+nltk.download("omw-1.4", download_dir=nltk_data_dir)
 # Load Model
 @st.cache_resource
 def load_model():
